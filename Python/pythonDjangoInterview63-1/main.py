@@ -161,7 +161,14 @@ removeDup(student_data)
 # Write Django settings for mysql database
 
 DATABASES = {
-
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dbName',
+        'USER': 'userName',
+        'PASSWORD': 'userPassword',
+        'HOST': 'localhost',
+        'PORT': ''
+    }
 }
 
 # *** TASK 7 END ***
@@ -170,10 +177,17 @@ DATABASES = {
 # *** TASK 8 ***
 # Declare a composite index for fields first_name and last_name
 
-# from django.db import models
+from django.db import models
 
-# class Customer(models.Model):
-# 	first_name = models.CharField(max_length=100)
-# 	last_name = models.CharField(max_length=100)
 
+class Customer(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['last_name', 'first_name']),
+            models.Index(fields=['first_name'], name='first_name_idx'),
+        ]
+        
 # *** TASK 8 END ***
