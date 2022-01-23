@@ -59,22 +59,29 @@ show_pattern(5) # prints out the pattern given below
 import argparse
 
 
-class multiplyAction(argparse.Action):
-    def __init__(self, option_strings, dest, nargs=None, **kwargs):
-        if nargs is not None:
-            raise ValueError("nargs not allowed")
-        super().__init__(option_strings, dest, **kwargs)
-    def __call__(self, parser, namespace, values, option_string=None):
-        value = 0
-        print('%r %r %r' % (namespace, value, option_string))
-        setattr(namespace, self.dest, value)
+def multiply(lst:list)->int: #function to multiply numbers in a list
+    i = 1
+    for j in lst:
+        i *= j
+    return i
 
-# parse = argparse.ArgumentParser()
-# parse.add_argument("ints", metavar='N', type=int, nargs='+')
-# parse.add_argument("-s", "--sum", dest='summation', action="store_const", const=sum)
-# parse.add_argument("-m", "--mul", dest='multiplication', action=multiplyAction)
-# args = parse.parse_args()
-# print(args.multiplication(args.ints))
+def sum(lst:list)->int: #function to sum numbers in a list
+    i = 0
+    for j in lst:
+        i += j
+    return i
+
+parser = argparse.ArgumentParser(description='Processing integers.')
+parser.add_argument('integers', metavar='N', type=int, nargs='+')
+parser.add_argument('-s', '--sum', dest='summation', action='store_true')
+parser.add_argument('-m', '--mul', dest='multiply', action='store_true')
+
+args = parser.parse_args()
+
+if(args.summation):
+    print(sum(args.integers))
+elif(args.multiply):
+    print(multiply(args.integers))
 
 # *** TASK 3 END ***
 
@@ -82,7 +89,7 @@ class multiplyAction(argparse.Action):
 # *** TASK 4 ***
 # Sample from file:
 """
-write a method to get baby names from the files in the following director,
+write a method to get baby names from the files in the following directory,
 then print to 3 frequent names
 
 ...
@@ -98,7 +105,7 @@ directory = "baby_names/"
 
 # *** TASK 4 END ***
 
-
+"""
 # *** TASK 5 ***
 # Write a program in Python to check if a sequence is a Palindrome:
 
@@ -189,5 +196,6 @@ class Customer(models.Model):
             models.Index(fields=['last_name', 'first_name']),
             models.Index(fields=['first_name'], name='first_name_idx'),
         ]
-        
+
 # *** TASK 8 END ***
+"""
