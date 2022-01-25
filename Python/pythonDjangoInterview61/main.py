@@ -17,6 +17,8 @@
 
 from math import sqrt
 
+from django.template import context
+
 numbers = [4, 64, 81, 144, 16, 9]
 
 numbers = [int(sqrt(x)) for x in numbers]
@@ -127,8 +129,18 @@ print(no_duplicate_foo_objects)
 # an HTML template called index.html that will display all the objects
 # from a model called Home.
 
-class ListHomeObjects():
-    pass
+from django.views.generic.list import ListView
+
+from .models import Home
+
+
+class ListHomeObjects(ListView):
+
+    model = Home
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 # *** TASK 7 END ***
 
